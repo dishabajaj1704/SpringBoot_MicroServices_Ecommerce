@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
-import com.example.demo.Entities.User;
+import com.example.demo.DTOS.UserRequest;
+import com.example.demo.DTOS.UserResponse;
 import com.example.demo.Services.UserService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class UserController {
 //Method 2: Using @RequiredArgsConstructor from Lombok
     private final UserService userService;
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
         //We were getting status code as 200 even if there were no users present
         //To give your own status code you can use ResponseEntity
        // return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
@@ -29,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
 
 //        User user = userService.getUserById(id);
 //        if(user==null) {
@@ -51,17 +52,17 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody User user) {
+    public ResponseEntity<String> createUser(@RequestBody UserRequest userRequest) {
 
-        userService.createUser(user);
+        userService.createUser(userRequest);
         return ResponseEntity.ok("User created successfully");
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserRequest userRequest) {
 
-       boolean updated= userService.updateUser(id,user);
+       boolean updated= userService.updateUser(id,userRequest);
        if(updated){
               return ResponseEntity.ok("User updated successfully");
        }
