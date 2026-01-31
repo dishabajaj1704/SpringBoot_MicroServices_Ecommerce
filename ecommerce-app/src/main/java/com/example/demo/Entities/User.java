@@ -39,7 +39,7 @@ public class User {
 
     //CascadeType.ALL It means all JPA operations on the parent are applied to the child:
     //orphanRemoval = true means if the parent entity is removed or the reference to the child entity is removed, the child entity will also be deleted from the database.
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true) //One User has One Address
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
