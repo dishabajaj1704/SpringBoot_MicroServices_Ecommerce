@@ -65,19 +65,33 @@ public class CartService {
 
 
     public List<CartItemResponse> getCartItems(String userId) {
-        Optional<User> userOptional = userRepository.findById(Long.valueOf(userId));
-        if(userOptional.isEmpty()) { return List.of(); }
+//        Optional<User> userOptional = userRepository.findById(Long.valueOf(userId));
+//        if(userOptional.isEmpty()) { return List.of(); }
+//
+//        List<CartItem> cartItems=cartItemRepository.findByUser(userOptional.get());
+//        return cartItems.stream().map(cartItem -> {
+//            CartItemResponse response = new CartItemResponse();
+//            response.setProduct(cartItem.getProduct());
+//            response.setQuantity(cartItem.getQuantity());
+//            response.setUser(cartItem.getUser());
+//            response.setPrice(cartItem.getPrice());
+//            return response;
+//
+//        }).toList();
 
-        List<CartItem> cartItems=cartItemRepository.findByUser(userOptional.get());
-        return cartItems.stream().map(cartItem -> {
-            CartItemResponse response = new CartItemResponse();
-            response.setProduct(cartItem.getProduct());
-            response.setQuantity(cartItem.getQuantity());
-            response.setUser(cartItem.getUser());
-            response.setPrice(cartItem.getPrice());
-            return response;
-
-        }).toList();
+        //Approach 2 neat way
+        return userRepository.findById(Long.valueOf(userId))
+                .map(user -> cartItemRepository.findByUser(user).stream()
+                        .map(cartItem -> {
+                            CartItemResponse response = new CartItemResponse();
+                            response.setProduct(cartItem.getProduct());
+                            response.setQuantity(cartItem.getQuantity());
+                            response.setPrice(cartItem.getPrice());
+                            return response;
+                        })
+                        .toList() // collect stream to list
+                )
+                .orElseGet(List::of);
 
     }
 
