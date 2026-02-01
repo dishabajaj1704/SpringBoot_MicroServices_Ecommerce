@@ -3,14 +3,16 @@ package com.example.demo.Entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name="cart_items")
 @Data
+@NoArgsConstructor
 public class CartItem {
 
     @Id

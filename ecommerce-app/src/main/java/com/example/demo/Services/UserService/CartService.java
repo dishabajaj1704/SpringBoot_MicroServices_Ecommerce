@@ -64,7 +64,7 @@ public class CartService {
     }
 
 
-    public List<CartItemResponse> getCartItems(String userId) {
+    public List<CartItem> getCartItems(String userId) {
 //        Optional<User> userOptional = userRepository.findById(Long.valueOf(userId));
 //        if(userOptional.isEmpty()) { return List.of(); }
 //
@@ -81,16 +81,7 @@ public class CartService {
 
         //Approach 2 neat way
         return userRepository.findById(Long.valueOf(userId))
-                .map(user -> cartItemRepository.findByUser(user).stream()
-                        .map(cartItem -> {
-                            CartItemResponse response = new CartItemResponse();
-                            response.setProduct(cartItem.getProduct());
-                            response.setQuantity(cartItem.getQuantity());
-                            response.setPrice(cartItem.getPrice());
-                            return response;
-                        })
-                        .toList() // collect stream to list
-                )
+                .map(user -> cartItemRepository.findByUser(user))
                 .orElseGet(List::of);
 
     }
@@ -151,6 +142,12 @@ public class CartService {
 //        );
 
 
+    }
+
+
+    public void clearCart(String userId) {
+        Optional<User> userOptional = userRepository.findById(Long.valueOf(userId));
+        userOptional.ifPresent(user -> cartItemRepository.deleteByUser(user));
     }
 
 

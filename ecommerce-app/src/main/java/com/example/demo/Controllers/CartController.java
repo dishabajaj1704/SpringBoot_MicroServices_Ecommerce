@@ -3,6 +3,7 @@ package com.example.demo.Controllers;
 
 import com.example.demo.DTOS.CartItemRequest;
 import com.example.demo.DTOS.CartItemResponse;
+import com.example.demo.Entities.CartItem;
 import com.example.demo.Services.UserService.CartService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,7 @@ public class CartController {
 
 
     @GetMapping
-    public ResponseEntity<List<CartItemResponse>> getCartItems(@RequestHeader("X-User-ID") String userId) {
+    public ResponseEntity<List<CartItem>> getCartItems(@RequestHeader("X-User-ID") String userId) {
             return ResponseEntity.ok(cartService.getCartItems(userId));
     }
 }
