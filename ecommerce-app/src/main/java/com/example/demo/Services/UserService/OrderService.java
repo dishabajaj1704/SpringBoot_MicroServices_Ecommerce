@@ -34,7 +34,7 @@ public class OrderService {
 
         //Validation for User
         Optional<User> userOptional = userRepository.findById(Long.valueOf(userId));
-        if(userOptional.isEmpty()){}
+        if(userOptional.isEmpty()){return Optional.empty();}
         User user=userOptional.get();
 
         //collect total Price
